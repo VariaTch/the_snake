@@ -1,5 +1,4 @@
 from random import choice, randint
-
 import pygame
 
 # Константы для размеров поля и сетки:
@@ -151,19 +150,19 @@ def handle_keys(snake):
                 snake.update_direction(RIGHT)
 
 
-def main():
+def main(max_steps=None):
     """Основная функция для запуска игры."""
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Змейка")
 
-    clock = pygame.time.Clock()
-
     snake = Snake()
     apple = Apple()
 
     running = True
+    steps = 0
     while running:
+        clock.tick(SPEED)
         handle_keys(snake)
         snake.move()
 
@@ -176,10 +175,14 @@ def main():
         apple.draw(screen)
         pygame.display.update()
 
-        clock.tick(SPEED)
+        steps += 1
+        if max_steps and steps >= max_steps:
+            running = False
 
     pygame.quit()
 
 
 if __name__ == "__main__":
-    main()
+    main(max_steps=100)
+
+
